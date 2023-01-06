@@ -83,9 +83,9 @@ public class BasicItemController {
     @PostMapping("/add")
     public String addItemV4(Item item) {
 
-        itemRepository.save(item);
+        Item saveItem = itemRepository.save(item);
         //return "basic/item";  //새로고침시 남아있는 명령 재전송됨
-        return "redirect:/basic/items";
+        return "redirect:/basic/items/" + saveItem.getId();  //뷰 템플릿이 아닌 redirect 사용 (url 자체가 바뀜)
     }
 
     @GetMapping("/{itemId}/edit")
