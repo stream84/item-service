@@ -84,13 +84,21 @@ public class BasicItemController {
     public String addItemV4(Item item) {
 
         itemRepository.save(item);
-        return "basic/item";
+        //return "basic/item";  //새로고침시 남아있는 명령 재전송됨
+        return "redirect:/basic/items";
     }
 
     @GetMapping("/{itemId}/edit")
-    public String edit(@PathVariable long itemId, Model model) {
-        log.info("BasicItemController.edit = {}", itemId);
+    public String editForm(@PathVariable Long itemId, Model model) {
+        Item item = itemRepository.findById(itemId);
+        model.addAttribute("item", item);
         return "basic/editForm";
+    }
+
+    @PostMapping("/{itemId}/edit")
+    public String edit(@PathVariable Long itemId, @ModelAttribute Item item) {
+        itemRepository.update(itemId, item);
+        return "redirect:/basic/items/{itemId}";
     }
 
 }
